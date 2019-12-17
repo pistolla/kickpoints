@@ -9,4 +9,10 @@ Run the following commands to test and run the application
 
 ### `yarn start`
 
+### npm i -g clevis
+
+### clevis full test
+
+### clevis deploy
+
 
