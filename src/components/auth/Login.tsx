@@ -1,0 +1,93 @@
+import React, { Fragment, useState } from 'react';
+import classes from '*.module.css';
+import { Paper, makeStyles, Typography, Button, Divider } from '@material-ui/core';
+import { TextField, Input } from 'final-form-material-ui';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { Form, Field } from 'react-final-form'
+import { Link } from 'react-router-dom';
+import { withFirebase } from '../../hoc/withFirebase';
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        padding: theme.spacing(3),
+    },
+    formControl: {
+        marginBottom: theme.spacing(2)
+
+    },
+    actionBtn: {
+        boxShadow: "none",
+        zIndex: 0
+    },
+    btnPanel: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(3),
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "start",
+        alignContent: "space-between"
+    }
+}));
+const Login: React.FC = (props) => {
+    const classes = useStyles();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const onSubmit = () => {
+
+    }
+    const validate = async () => {
+
+    }
+    return (
+        <Paper elevation={5} className={classes.container}>
+            <Form
+                onSubmit={onSubmit}
+                validate={validate}
+                render={({ handleSubmit, pristine, invalid }) => (
+                    <form onSubmit={handleSubmit}>
+                        <Typography variant="h4">Login</Typography>
+                        <Field
+                            name="email"
+                            type="email"
+                            component={TextField}
+                            label="Enter email"
+                            margin="normal"
+                            fullWidth
+                            className={classes.formControl}
+                        />
+                        <Field
+                            name="password"
+                            component={Input}
+                            className="input"
+                            type="password"
+                            placeholder="enter Password"
+                            fullWidth
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <Link className="inputLink" to="/forgot">
+                                        Forgot password?
+                            </Link>
+                                </InputAdornment>
+                            }
+                        />
+                        <div className={classes.btnPanel}>
+                            <Button
+                                color="primary"
+                                size="medium"
+                                variant="contained"
+                                className={classes.actionBtn}>Login</Button>
+                            <Button
+                                color="secondary"
+                                size="medium"
+                                className={classes.actionBtn}>Register</Button>
+                        </div>
+                    </form>
+                )} />
+                <Divider light orientation="horizontal" variant="middle" />
+                <div className={classes.btnPanel}>
+
+                </div>
+        </Paper>
+    );
+}
+export default withFirebase(Login)
