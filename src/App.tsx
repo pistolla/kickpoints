@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import logo from './logo.svg';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, Redirect, withRouter } from 'react-router-dom';
 import { ThemeProvider, useTheme, makeStyles } from '@material-ui/core/styles';
 import { style } from '@material-ui/system';
-import { AppBar, Toolbar, IconButton, Typography, Grid } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Grid, CssBaseline, Switch as UISwitch, FormControlLabel } from '@material-ui/core';
 import { Dapparatus, Gas, ContractLoader, Transactions, Events, Scaler, Blockie, Address, Button } from "dapparatus"
 import Web3 from 'web3';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import { useThemed } from './hooks/useThemed';
 
 const METATX = {
   endpoint: "http://127.0.0.1:8545/",
@@ -112,6 +113,7 @@ const App: React.FC = (props: any) => {
   const [metaAccount, setMetaAccount] = useState(null);
   const [loggedin, setLoggedin] = useState(false);
   const [balance, setBalance] = useState(null);
+  const [theme, toggleTheme] = useThemed();
   let connectedDisplay = []
   let contractsDisplay = []
 
@@ -131,7 +133,9 @@ const App: React.FC = (props: any) => {
         key="ContractLoader"
         config={{ DEBUG: true }}
         web3={web3}
-        require={(path: string) => { return require(`${__dirname}/${path}`) }}
+        // require={(path: string) => { 
+        //   return require(`${__dirname}/${path}`) 
+        // }}
         onReady={(contracts: any, customLoader: any) => {
           console.log("contracts loaded", contracts)
           setContracts(contracts);
@@ -187,15 +191,10 @@ const App: React.FC = (props: any) => {
         </div>
       )
     }
-  } else {
-    console.log(web3);
-  }
-  const handleLogin = () => {
-    //history.push("/login")
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <Fragment>
       <div className={classes.app}>
         <AppBar position="relative" elevation={0} className={classes.appbar}>
           <Toolbar className={classes.toolbar}>
@@ -206,6 +205,9 @@ const App: React.FC = (props: any) => {
               <Typography variant="h6" className={classes.apptitle}>
                 Global Communities
               </Typography>
+              <FormControlLabel 
+              className={classes.menuBtn}
+              control={<UISwitch onClick={} />} />
               {/* <Button size="small" className={classes.menuBtn} onClick={handleLogin()}>{(loggedin === true) ? 'Logout' : 'Login'}</Button> */}
             </div>
             <div className={classes.infobar}>
@@ -272,7 +274,7 @@ const App: React.FC = (props: any) => {
         />
 
       </footer>
-    </ThemeProvider>
+    </Fragment>
   );
 }
 

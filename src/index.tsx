@@ -4,11 +4,19 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import Firebase from './Firebase';
 import { FirebaseContext } from './hoc/withFirebase';
+import { MuiThemeProvider, createMuiTheme, CssBaseline } from '@material-ui/core';
+import { useThemed } from './hooks/useThemed';
 //import * as serviceWorker from './serviceWorker';
+const [theme, toggleTheme] = useThemed();
+
+const themeConfig = createMuiTheme(theme);
 
 ReactDOM.render(
     //<FirebaseContext.Provider value={new Firebase()}>
+        <MuiThemeProvider theme={themeConfig}>
+            <CssBaseline />
         <App />
+        </MuiThemeProvider>
     //</FirebaseContext.Provider>
     , document.getElementById('root'));
 
