@@ -41,36 +41,36 @@ export const Home: React.FC = () => {
                     </Typography>
             <GridList cols={2}>
                 <GridListTile cols={2} rows={1}>
-                    <img src="" alt="WearerKickback" onClick={() => alert("Hello from here")}/>
+                    <img src="" alt="WearerKickback" />
                     <GridListTileBar
-                        title="Thank you for attending our event"
+                        title="Collect some collectibles"
                         subtitle={<span>Kickback</span>}
                         actionIcon={
-                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => alert("Hello from here")}>
+                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/ticket')}>
 
                             </IconButton>
                         }
                     />
                 </GridListTile>
                 <GridListTile cols={1} rows={1}>
-                    <img src="" alt="WearerKickback" onClick={() => alert("Hello from here")} />
+                    <img src="" alt="WearerKickback" />
                     <GridListTileBar
                         title="You have been awarded Kudos in Gitcoin"
                         subtitle={<span>Gitcoin</span>}
                         actionIcon={
-                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => alert("Hello from here")}>
+                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/profile')}>
 
                             </IconButton>
                         }
                     />
                 </GridListTile>
                 <GridListTile cols={1} rows={1}>
-                    <img src="" alt="WearerKickback" onClick={() => alert("Hello from here")}/>
+                    <img src="" alt="WearerKickback" />
                     <GridListTileBar
                         title="You have a offer in WalletConnect"
                         subtitle={<span>Tswira</span>}
                         actionIcon={
-                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => alert("Hello from here")}>
+                            <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/account')}>
                                 
                             </IconButton>
                         }

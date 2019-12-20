@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import { Home } from './components/home/Home';
 import { About } from './components/about/About';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, Redirect, withRouter } from 'react-router-dom';
-import { ThemeProvider, useTheme, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider, useTheme, makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { style } from '@material-ui/system';
 import { AppBar, Toolbar, IconButton, Typography, Grid, CssBaseline, Switch as UISwitch, FormControlLabel } from '@material-ui/core';
 import { Dapparatus, Gas, ContractLoader, Transactions, Events, Scaler, Blockie, Address, Button } from "dapparatus"
@@ -11,12 +11,12 @@ import Web3 from 'web3';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import { useThemed } from './hooks/useThemed';
+import { Gitcoin } from './components/profile/Gitcoin';
 
 const METATX = {
   endpoint: "http://127.0.0.1:8545/",
   contract: "0x2E14d5D882F4b66e6Ff091c3aD24F6e2CE5Dd7C8"
 }
-
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -94,8 +94,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App: React.FC = (props: any) => {
-  console.log(props);
-  const theme = useTheme();
   const classes = useStyles();
   // const history = props.history;
 
@@ -114,6 +112,8 @@ const App: React.FC = (props: any) => {
   const [loggedin, setLoggedin] = useState(false);
   const [balance, setBalance] = useState(null);
   const [theme, toggleTheme] = useThemed();
+  const [toggle, setToggle] = useState(false);
+  const [themeConfig, setThemeConfig] = useState(createMuiTheme(theme))
   let connectedDisplay = []
   let contractsDisplay = []
 
@@ -192,9 +192,11 @@ const App: React.FC = (props: any) => {
       )
     }
   }
-
+  
+  
   return (
-    <Fragment>
+    <MuiThemeProvider theme={themeConfig}>
+      <CssBaseline />
       <div className={classes.app}>
         <AppBar position="relative" elevation={0} className={classes.appbar}>
           <Toolbar className={classes.toolbar}>
@@ -207,7 +209,15 @@ const App: React.FC = (props: any) => {
               </Typography>
               <FormControlLabel 
               className={classes.menuBtn}
-              control={<UISwitch onClick={} />} />
+              label="Change Theme"
+              control={<UISwitch onClick={()=>{ 
+                let typename = toggle === true ? "dark": "light"
+                theme.palette.type = typename
+                console.log(theme)
+                toggleTheme()
+                setToggle(!toggle)
+                setThemeConfig(createMuiTheme(theme));
+              }} />} />
               {/* <Button size="small" className={classes.menuBtn} onClick={handleLogin()}>{(loggedin === true) ? 'Logout' : 'Login'}</Button> */}
             </div>
             <div className={classes.infobar}>
@@ -243,6 +253,12 @@ const App: React.FC = (props: any) => {
                   <Route path="/ticket">
                     <Register />
                   </Route>
+                  <Route path="/profile">
+                    <Gitcoin />
+                  </Route>
+                  <Route path="/account">
+                    <Register />
+                  </Route>
                 </Switch>
               </Grid>
             </Grid>
@@ -274,7 +290,7 @@ const App: React.FC = (props: any) => {
         />
 
       </footer>
-    </Fragment>
+      </MuiThemeProvider>
   );
 }
 
