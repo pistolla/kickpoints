@@ -4,7 +4,7 @@ import { Paper, makeStyles, Typography, Button, Divider } from '@material-ui/cor
 import { TextField, Input } from 'final-form-material-ui';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Form, Field } from 'react-final-form'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { withFirebase } from '../../hoc/withFirebase';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,15 +28,27 @@ const useStyles = makeStyles((theme) => ({
         alignContent: "space-between"
     }
 }));
-const Login: React.FC = (props) => {
+const Login: React.FC = (props: any) => {
     const classes = useStyles();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const onSubmit = () => {
-
+    const history = useHistory();
+    const onSubmit = (value: any) => {
+        console.log("onSubmit")
+        props.firebase
+            .doSignInWithEmailAndPassword(value.email, value.password)
+            .then(() => {
+                history.push('/');
+            })
+            .catch((error: any) => {
+                console.log(error)
+                if(error.code == 'auth/user-not-found'){
+                    history.push('/register')
+                }
+            });
     }
-    const validate = async () => {
-
+    const validate = async (value: any) => {
+        console.log("onValidate");
     }
     return (
         <Paper elevation={5} className={classes.container}>
@@ -75,18 +87,20 @@ const Login: React.FC = (props) => {
                                 color="primary"
                                 size="medium"
                                 variant="contained"
-                                className={classes.actionBtn}>Login</Button>
+                                className={classes.actionBtn}
+                                type="submit">Login</Button>
                             <Button
                                 color="secondary"
                                 size="medium"
-                                className={classes.actionBtn}>Register</Button>
+                                className={classes.actionBtn}
+                                onClick={() => history.push('/register')}>Register</Button>
                         </div>
                     </form>
                 )} />
-                <Divider light orientation="horizontal" variant="middle" />
-                <div className={classes.btnPanel}>
+            <Divider light orientation="horizontal" variant="middle" />
+            <div className={classes.btnPanel}>
 
-                </div>
+            </div>
         </Paper>
     );
 }

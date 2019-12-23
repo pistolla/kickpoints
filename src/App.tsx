@@ -12,6 +12,8 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import { useThemed } from './hooks/useThemed';
 import { Gitcoin } from './components/profile/Gitcoin';
+import { Ticket } from './components/events/Ticket';
+import { Account } from './components/account/Account';
 
 const METATX = {
   endpoint: "http://127.0.0.1:8545/",
@@ -114,6 +116,7 @@ const App: React.FC = (props: any) => {
   const [theme, toggleTheme] = useThemed();
   const [toggle, setToggle] = useState(false);
   const [themeConfig, setThemeConfig] = useState(createMuiTheme(theme))
+  // const history = useHistory();
   let connectedDisplay = []
   let contractsDisplay = []
 
@@ -238,27 +241,13 @@ const App: React.FC = (props: any) => {
             <Grid className={classes.container} container justify="center" direction="column">
               <Grid item className={classes.containerItem}>
                 <Switch>
-                  <Route path="/about">
-                    <About />
-                  </Route>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                  <Route path="/login">
-                    <Login />
-                  </Route>
-                  <Route path="/register">
-                    <Register />
-                  </Route>
-                  <Route path="/ticket">
-                    <Register />
-                  </Route>
-                  <Route path="/profile">
-                    <Gitcoin />
-                  </Route>
-                  <Route path="/account">
-                    <Register />
-                  </Route>
+                  <Route path="/about" component={About}/>
+                  <Route exact path="/" component={Home}/>
+                  <Route path="/login" component={Login}/>
+                  <Route path="/register" component={Register}/>
+                  <Route path="/ticket" component={Ticket}/>
+                  <Route path="/profile" component={Gitcoin} />
+                  <Route path="/account" component={Account} />
                 </Switch>
               </Grid>
             </Grid>

@@ -3,6 +3,9 @@ import { makeStyles, Typography, Paper, Grid, GridList, GridListTile, IconButton
 import { Events } from '../events/Events';
 import { ERC20Icon } from 'dapparatus';
 import { useHistory } from 'react-router-dom';
+import Tickets from './Tickets.svg';
+import ccfront from './ccfront.svg';
+import qrscan from './qrscan.svg'
 
 const useStyles = makeStyles(theme => ({
     homePaper: {
@@ -11,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         zIndex: 999
     },
     tile: {
-        minHeight: 350,
+        minHeight: 400,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -31,7 +34,7 @@ const addEvents = (calendarEvent: any) => {
     }
 }
 
-export const Home: React.FC = () => {
+export const Home: React.FC = (props: any) => {
     const classes = useStyles();
     const history = useHistory();
     return (
@@ -41,37 +44,37 @@ export const Home: React.FC = () => {
                     </Typography>
             <GridList cols={2}>
                 <GridListTile cols={2} rows={1}>
-                    <img src="" alt="WearerKickback" />
+                    <img src={Tickets} alt="WearerKickback" />
                     <GridListTileBar
                         title="Collect some collectibles"
                         subtitle={<span>Kickback</span>}
                         actionIcon={
                             <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/ticket')}>
-
+                                <ERC20Icon />
                             </IconButton>
                         }
                     />
                 </GridListTile>
                 <GridListTile cols={1} rows={1}>
-                    <img src="" alt="WearerKickback" />
+                    <img src={ccfront} alt="WearerKickback" />
                     <GridListTileBar
                         title="You have been awarded Kudos in Gitcoin"
                         subtitle={<span>Gitcoin</span>}
                         actionIcon={
                             <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/profile')}>
-
+                                <ERC20Icon />
                             </IconButton>
                         }
                     />
                 </GridListTile>
                 <GridListTile cols={1} rows={1}>
-                    <img src="" alt="WearerKickback" />
+                    <img src={qrscan} alt="WearerKickback" />
                     <GridListTileBar
                         title="You have a offer in WalletConnect"
                         subtitle={<span>Tswira</span>}
                         actionIcon={
                             <IconButton size="medium" aria-label={`open`} className={classes.icon} onClick={() => history.push('/account')}>
-                                
+                                <ERC20Icon />
                             </IconButton>
                         }
                     />

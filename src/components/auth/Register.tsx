@@ -3,7 +3,7 @@ import { Paper, makeStyles, Typography, Button, Divider } from '@material-ui/cor
 import { TextField, Input } from 'final-form-material-ui';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Form, Field } from 'react-final-form'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { withFirebase } from '../../hoc/withFirebase';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,13 +27,26 @@ const useStyles = makeStyles((theme) => ({
 
     },
 }));
- const Register: React.FC = () => {
+const Register: React.FC = (props: any) => {
     const classes = useStyles();
-    const onSubmit = () => {
-
+    const history = useHistory();
+    const onSubmit = (value: any) => {
+        console.log('onsubmit')
+        props.firebase
+            .doCreateUserWithEmailAndPassword(value.email, value.password)
+            .then((authUser: any) => {
+                console.log(authUser)
+                history.push('/login')
+            })
+            .catch((error: any) => {
+                console.log(error)
+                if(error.code ==  'auth/email-already-in-use'){
+                    history.push('/login') 
+                }
+            });
     }
     const validate = async () => {
-
+        console.log('onvalidate')
     }
     return (
         <Paper elevation={5} className={classes.container}>
@@ -48,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
                             type="email"
                             component={TextField}
                             label="Enter email"
-                            margin="normal"
                             fullWidth
                             className={classes.formControl}
                         />
@@ -57,24 +69,24 @@ const useStyles = makeStyles((theme) => ({
                             type="phone"
                             component={TextField}
                             label="Enter phone"
-                            margin="normal"
                             fullWidth
                             className={classes.formControl}
                         />
                         <Field
                             name="password"
                             component={Input}
-                            className="input"
+                            className={classes.formControl}
                             type="password"
-                            placeholder="enter Password"
+                            placeholder="Enter Password"
+                            label="Enter Password"
                             fullWidth
                         />
                         <Field
                             name="confirm-password"
                             component={Input}
-                            className="input"
+                            className={classes.formControl}
                             type="password"
-                            placeholder="re-enter Password"
+                            label="Re-enter Password"
                             fullWidth
                         />
                         <div className={classes.btnPanel}>
@@ -82,11 +94,13 @@ const useStyles = makeStyles((theme) => ({
                                 color="primary"
                                 size="medium"
                                 variant="contained"
-                                className={classes.actionBtn}>Register</Button>
+                                className={classes.actionBtn}
+                                type="submit">Register</Button>
                             <Button
                                 color="secondary"
                                 size="medium"
-                                className={classes.actionBtn}>Login</Button>
+                                className={classes.actionBtn}
+                                onClick={()=> history.push('/login')}>Login</Button>
                         </div>
                     </form>
                 )} />
