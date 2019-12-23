@@ -8,9 +8,19 @@ import { CreateEvent } from './CreateEvent';
 const useStyles = makeStyles((theme: any) => ({
     container: {
         height: '100vh',
-        padding: theme.spacing(3, 2)
+        // padding: theme.spacing(3, 2)
     }
 }));
+interface TicketEvent {
+    id: string,
+    name: string,
+    email: string,
+    description: string,
+    start: Date,
+    venue: string,
+    poster: string,
+    price: number
+}
 
 export const Ticket: React.FC = () => {
     const [loading, setLoading] = useState(false);
@@ -23,6 +33,9 @@ export const Ticket: React.FC = () => {
             </div>
         )
     }
+    const addEvent = (event: TicketEvent) => {
+        console.log("addEvent")
+    }
 
     return (
         loading == true ? showLoading() : (
@@ -30,16 +43,10 @@ export const Ticket: React.FC = () => {
                 <Router>
                     <div>
                         <Switch>
-                            <Route exact path={path}>
-                                <Events />
-                            </Route>
-                            <Route path={`${path}/:id`}>
-                                <Event />
-                            </Route>
-                            <Route path={`${path}/edit/:id`}>
-                                <CreateEvent />
-                            </Route>
-                        </Switch>
+                            <Route exact path={path} component={Events} />
+                            <Route path={`${path}/add`} component={CreateEvent} />
+                            <Route path={`${path}/:id`} component={Event} />
+                        </Switch> 
                     </div>
                 </Router>
             </Paper>

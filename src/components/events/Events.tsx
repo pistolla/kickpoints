@@ -1,22 +1,37 @@
 import React from 'react';
-import { Typography, Card } from '@material-ui/core';
+import { Typography, Card, CardContent, CardActionArea, CardMedia, IconButton, List, ListItem, ListItemIcon, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, makeStyles, Button } from '@material-ui/core';
 import { Event } from './Event';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useRouteMatch, useHistory } from 'react-router-dom';
+import Tickets from '../home/Tickets.svg';
+import { ERC20Icon } from 'dapparatus';
 
 
-interface EventsProps extends RouteComponentProps{
-    addEvent: any;
-    events: any
-}
+const useStyles = makeStyles((theme) => ({
+    headline: {
+        flexGrow: 1,
+    width: "100%",
+    display: 'flex',
+    justifyContent: 'space-between'
+    },
+    hltitle: {
+        alignSelf: 'flex-end'
+    },
+    hlaction: {
+        alignSelf: 'flex-end',
+        
+    }
+}))
 
 const calendareventsUrls: string[] = [];
 
 export const Events: React.FC = (props: any) => {
-    const addEvent =() => {
+    const classes = useStyles();
+    const history = useHistory();
+    const addEvent = () => {
         console.log("addEvent")
-    } 
+    }
     const events: any[] = [];
-
+    const { path, url } = useRouteMatch();
     Object.values(calendareventsUrls).map(async (val: any) => {
         let r = await fetch(val, { mode: `cors` })
         let { items } = await r.json()
@@ -27,20 +42,56 @@ export const Events: React.FC = (props: any) => {
             ),
         ].sort((a, b) => +new Date(a.start.dateTime) - +new Date(b.start.dateTime)))
     })
+    
     return (
-        <div>
-            <Typography>
-                UPCOMING EVENTS
-    </Typography>
-            <Card>
-                {events.map((e: any, i: any) =>
-                    <div key={e.id}>
-                        <Event />
-                        {i < events.length - 1 && <hr />}
+
+        <Card elevation={0} style={{height: '100%'}}>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    alt="Tickets"
+                    height="100"
+                    image={Tickets}
+                    title="Tickets"
+                />
+                <CardContent>
+                    <div className={classes.headline}>
+                        <Typography gutterBottom variant="h5" component="h2" className={classes.hltitle}>
+                            Tickets available
+                        </Typography>
+                        <Button
+                                color="secondary"
+                                size="medium"
+                                className={classes.hlaction}
+                                onClick={()=> {
+                                    console.log("Add a Tickets")
+                                    history.push(`${path}/add`)
+                                }}>Create</Button>
                     </div>
-                )}
-            </Card>
-        </div>
+                    <List>
+                        {events.map((e: any, i: any) =>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <ERC20Icon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary="Single-line item"
+                                    secondary='Secondary text'
+                                />
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" aria-label="delete">
+                                        <ERC20Icon />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )}
+                    </List>
+
+                </CardContent>
+            </CardActionArea>
+        </Card>
 
     )
 }

@@ -1,7 +1,21 @@
 import React, { PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
-import { BaseProps } from '@material-ui/core/OverridableComponent';
+import { Card, CardActionArea, CardMedia, CardContent, makeStyles, Typography, Button } from '@material-ui/core';
+import Tickets from '../home/Tickets.svg';
+const useStyles = makeStyles((theme) => ({
+    headline: {
+        flexGrow: 1,
+        width: "100%",
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    hltitle: {
+        alignSelf: 'flex-end'
+    },
+    hlaction: {
+        alignSelf: 'flex-end',
 
+    }
+}));
 const DAYS_OF_WEEK = [
     'Sunday',
     'Monday',
@@ -26,11 +40,11 @@ const MONTHS = [
     'November',
     'December',
 ]
-interface Props  {
+interface Props {
     event: any
 }
 export const Event: React.FC = (props: any) => {
-    const [event] = {...props};
+    const [event] = { ...props };
     let meetupName: string = '', description: string = '', url: string = ''
     let startDate = new Date(event.start.dateTime)
 
@@ -41,6 +55,7 @@ export const Event: React.FC = (props: any) => {
     let minutes = startDate.getMinutes()
     let mins: string = '';
     let AMPM = startDate.getHours() < 12 ? 'AM' : 'PM'
+    const classes = useStyles();
 
     if (minutes <= 10) {
         mins = `0${minutes}`
@@ -49,17 +64,36 @@ export const Event: React.FC = (props: any) => {
     let displayStartDate = `${day}, ${month} ${date} at ${hours}:${mins}${AMPM}`
 
     return (
-        <div>
-            <h4>{meetupName} - {event.summary}</h4>
-            <p>{displayStartDate}</p>
-            <p>{event.location}</p>
-            <p>{description}</p>
-            <p>
-                <Link to={url}>
-                    Event Details
-        </Link>
-            </p>
-        </div>
+        <Card elevation={0}>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    alt="Tickets"
+                    height="100"
+                    image={Tickets}
+                    title="Tickets"
+                />
+                <CardContent>
+                    <div className={classes.headline}>
+                        <Typography gutterBottom variant="h5" component="h2" className={classes.hltitle}>
+                            Ticket {meetupName}
+                        </Typography>
+                        <Button
+                            color="secondary"
+                            size="medium"
+                            variant="contained"
+                            className={classes.hlaction}>BUY NOW</Button>
+                    </div>
+                    <div>
+                        <h4>{meetupName} - {event.summary}</h4>
+                        <p>{displayStartDate}</p>
+                        <p>{event.location}</p>
+                        <p>{description}</p>
+
+                    </div>
+                </CardContent>
+            </CardActionArea>
+        </Card>
 
     )
 }
