@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 550,
     width: 550,
     alignSelf: "flex-start",
-    zIndex: 9999
+    zIndex: 1299
   },
   containerItem: {
     maxWidth: "100%"

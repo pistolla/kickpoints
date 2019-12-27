@@ -25,17 +25,14 @@ const useStyles = makeStyles((theme) => ({
 const calendareventsUrls: string[] = [];
 
 export const Events: React.FC = (props: any) => {
+    const [events, addEvent] = {...props};
     const classes = useStyles();
     const history = useHistory();
-    const addEvent = () => {
-        console.log("addEvent")
-    }
-    const events: any[] = [];
     const { path, url } = useRouteMatch();
     Object.values(calendareventsUrls).map(async (val: any) => {
         let r = await fetch(val, { mode: `cors` })
         let { items } = await r.json()
-        props.addEvent((s: any) => [
+        addEvent((s: any) => [
             ...s,
             ...(items || []).filter((event: any) =>
                 event.organizer && +Date.now() < +new Date(event.end.dateTime)

@@ -24,6 +24,7 @@ interface TicketEvent {
 
 export const Ticket: React.FC = () => {
     const [loading, setLoading] = useState(false);
+    const [events, setEvents] = useState([{}]);
     const classes = useStyles();
     const { path, url } = useRouteMatch();
     const showLoading = () => {
@@ -33,8 +34,10 @@ export const Ticket: React.FC = () => {
             </div>
         )
     }
-    const addEvent = (event: TicketEvent) => {
+    const addEvent = (event: any) => {
         console.log("addEvent")
+        console.log(event)
+        events.push(event)
     }
 
     return (
@@ -43,9 +46,9 @@ export const Ticket: React.FC = () => {
                 <Router>
                     <div>
                         <Switch>
-                            <Route exact path={path} component={Events} />
-                            <Route path={`${path}/add`} component={CreateEvent} />
-                            <Route path={`${path}/:id`} component={Event} />
+                            <Route exact path={path} render={(props: any) => <Events {...props} events={events} addEvent={addEvent} />} />
+                            <Route path={`${path}/add`} render={(props: any) => <CreateEvent {...props} addEvent={addEvent} />} />
+                            <Route path={`${path}/:id`} render={(props: any) => <Event {...props} />} />
                         </Switch> 
                     </div>
                 </Router>

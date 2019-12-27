@@ -19,7 +19,8 @@
     "noEmit": true,
     "jsx": "react",
     "noImplicitAny": true,
-    "typeRoots": [ "./src/@types", "./node_modules/@types"]
+    "typeRoots": [ "./src/@types", "./node_modules/@types"],
+    "suppressImplicitAnyIndexErrors": true,
   },
   "include": [
     "src"
