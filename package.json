@@ -13,7 +13,7 @@
     "@wearekickback/contracts": "^1.2.9",
     "final-form": "4.0.0",
     "final-form-material-ui": "^0.3.0",
-    "firebase": "^7.6.0",
+    "firebase": "^10.9.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-final-form": "3.0.0",
